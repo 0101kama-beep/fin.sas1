@@ -1,18 +1,27 @@
-let quote = [];
-function getquote() {
-    fetch("https://zenquotes.io/api/quotes")
-        .then(Response => Response.json)
+let quotee = [];
+
+function getquotee() {
+    let searchValue = document.getElementById("searchInput").value;
+
+    fetch(`https://api-wisdom.deontex.com/api/v1/quotes?search=${searchValue}`)
+        .then(response => response.json())
         .then(data => {
-           console.log(data);   
-           let Quotes = data[0].q;
-           let authore = data[0].a;
-     document.querySelector(".Quotes").textContent = Quotes;
-      document.querySelector(".authore").textContent = authore;
-        }
-        )
+           quotee = data.quotes || []; 
 
+            if (quotee.length === 0) {
+                document.getElementById('authore').textContent = "No results";
+                document.getElementById('Quotes').textContent = "Try another word";
+                return;
+            }
 
-};
+            printequotee();
+        });
+}
 
- window.onload = function () {
-     getquote(); }
+function printequotee() {
+    let quoteeIndex = Math.floor(Math.random() * quotee.length);
+    let quote = quotee[quoteeIndex];
+
+    document.getElementById('authore').textContent = quote.philosopher_name;
+    document.getElementById('Quotes').textContent = quote.quote_text;
+}
