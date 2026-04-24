@@ -6,7 +6,9 @@ function getquotee() {
     fetch(`https://api-wisdom.deontex.com/api/v1/quotes?search=${searchValue}`)
         .then(response => response.json())
         .then(data => {
-           quotee = data.quotes || []; 
+           quotee = data.data || []; 
+           console.log(quotee);
+           
 
             if (quotee.length === 0) {
                 document.getElementById('authore').textContent = "No results";
